@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler'
+require 'mail'
+require 'appscript'
+require 'nokogiri'
+include Appscript
+
+
+
+of = app('OmniFocus')
+
+stdintxt = STDIN.read
+message = Mail.new(stdintxt)
+tasks = of.documents[1].get
+subject = message.subject.to_s
+plain_part = message.multipart? ? (message.text_part ? message.text_part.body.decoded : nil) : message.body.decoded
+html_part = message.html_part ? message.html_part.body.decoded : nil
+content = html_part ?  Nokogiri::HTML(html_part).text : plain_part
+context = of.documents[1].flattened_contexts['Email'].get
+
+tasks.make(:new => :inbox_task, :with_properties => {:name => subject, :note => content, :context => context})
