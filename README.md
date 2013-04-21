@@ -15,6 +15,7 @@ Usage
 Clone the repo and go a bundle 
 
 Use the following in your mutt configuration files:
-
-    macro index,pager \cL "<pipe-message>pathto/mutt2omnifocus<enter>" \
-        "Create OmniFocus task from message"
+    macro index,pager \cL "<enter-command>set pipe_decode=no<enter>\
+    <pipe-message>/Users/stephen/src/mutt2omnifocus/mutt2omnifocus<enter>\
+    <enter-command>set pipe_decode=yes<enter>" \
+    "Create OmniFocus task from message"
