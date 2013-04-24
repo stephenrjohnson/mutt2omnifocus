@@ -17,7 +17,7 @@ tasks = of.documents[1].get
 subject = message.subject.to_s
 plain_part = message.multipart? ? (message.text_part ? message.text_part.body.decoded : nil) : message.body.decoded
 html_part = message.html_part ? message.html_part.body.decoded : nil
-content = plan_part ?  plan_part : Nokogiri::HTML(html_part).text
+content = plain_part ?  plain_part : Nokogiri::HTML(html_part).text
 context = of.documents[1].flattened_contexts['Email'].get
 
 tasks.make(:new => :inbox_task, :with_properties => {:name => subject, :note => content, :context => context})
